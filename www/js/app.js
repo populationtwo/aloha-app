@@ -16,6 +16,12 @@ angular.module('App', ['ionic'])
                 controller: 'weatherController',
                 controllerAs: 'weather',
                 templateUrl: 'views/weather/weather.view.html'
+            })
+            .state('restaurants', {
+                url: '/restaurants',
+                controller: 'restaurantController',
+                controllerAs: 'restaurant',
+                templateUrl: 'views/restaurants/restaurant.view.html'
             });
 
         $urlRouterProvider.otherwise('/home');
