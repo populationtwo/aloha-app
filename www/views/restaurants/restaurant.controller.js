@@ -1,23 +1,30 @@
 angular.module('App')
-    .controller('restaurantController', function ($scope, $http) {
+    .controller('restaurantController', restaurantController);
 
-        $scope.page = 0;
-        $scope.total = 1;
-        $scope.restaurants = [];
+function restaurantController($scope, $http) {
 
-        $scope.getRestaurants = function () {
-            $scope.page++;
-            $http.get('https://ionic-in-action-api.herokuapp.com/restaurants?page=' + $scope.page).success(function (response) {
-                angular.forEach(response.restaurants, function (restaurant) {
-                    $scope.restaurants.push(restaurant);
-                });
-                $scope.total = response.totalPages;
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-            }).error(function (err) {
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-                console.log(err);
+    var vm = $scope;
+
+    vm.page = 0;
+    vm.total = 1;
+    vm.restaurants = [];
+
+    vm.getRestaurants = getRestaurants();
+
+
+    function getRestaurants() {
+        vm.page++;
+
+        $http.get('https://ionic-in-action-api.herokuapp.com/restaurants?page=' + vm.page).success(function (response) {
+            angular.forEach(response.restaurants, function (restaurant) {
+                vm.restaurants.push(restaurant);
             });
-        };
+            vm.total = response.totalPages;
+            vm.$broadcast('scroll.infiniteScrollComplete');
+        }).error(function (err) {
+            vm.$broadcast('scroll.infiniteScrollComplete');
+            console.log(err);
+        });
+    };
 
-        $scope.getRestaurants();
-    });
+};
